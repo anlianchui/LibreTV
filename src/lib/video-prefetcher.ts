@@ -97,6 +97,8 @@ export function computeWindow(
 }
 
 export function shouldPrefetch(): boolean {
+  // 非浏览器环境（Node 测试、Next.js SSR 预渲染）下不存在 navigator，按无降级信息处理
+  if (typeof navigator === 'undefined') return true;
   const conn = (navigator as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
   if (!conn) return true;
   if (conn.saveData) return false;
